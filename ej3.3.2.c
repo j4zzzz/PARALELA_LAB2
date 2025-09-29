@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
 
-    local_val = rank + 1; // valor inicial
+    local_val = rank + 1; 
     global_sum = local_val;
 
     for (step = 1; step < comm_sz; step *= 2) {
@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
         } else {
             partner = rank - step;
             MPI_Send(&global_sum, 1, MPI_INT, partner, 0, MPI_COMM_WORLD);
-            break; // deja de participar
+            break; 
         }
     }
 

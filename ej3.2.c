@@ -18,13 +18,10 @@ int main(int argc, char* argv[]) {
         scanf("%lld", &tosses);
     }
 
-    // Broadcast del total de lanzamientos
     MPI_Bcast(&tosses, 1, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
-    // Dividir lanzamientos entre procesos
     local_tosses = tosses / size;
 
-    // Semilla distinta para cada proceso
     srand(time(NULL) + rank);
 
     for (long long int toss = 0; toss < local_tosses; toss++) {
@@ -34,7 +31,6 @@ int main(int argc, char* argv[]) {
         if (dist_sq <= 1.0) local_in_circle++;
     }
 
-    // Reduce para sumar todos los locales en el proceso 0
     MPI_Reduce(&local_in_circle, &number_in_circle, 1, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
